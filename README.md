@@ -42,7 +42,7 @@ Clone the Repository:
 
 bash
 Copy code
-git clone https://github.com/MaureenMercy/flatironbamk.git
+git clone git@github.com:MaureenMercy/Bank-of-Flatiron.git
 Navigate to the Project Directory:
 
 bash
