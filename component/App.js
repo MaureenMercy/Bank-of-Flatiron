@@ -1,48 +1,55 @@
 import React, { useState, useEffect } from 'react';
-// ... other imports
+import TransactionTable from './components/TransactionTable';
+import TransactionForm from './components/TransactionForm';
+import SearchBar from './components/SearchBar';
+// Remove the incorrect Credentials import
+// import Credentials from './components/Credentials'; 
 
 function App() {
   const [transactions, setTransactions] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+  const [sortOption, setSortOption] = useState('date'); // Default sorting by date
 
-  // ... existing useEffect and fetchTransactions function
+  useEffect(() => {
+    // Fetch transactions from the local JSON server
+    fetch('http://localhost:8001/transactions')
+      .then(response => response.json())
+      .then(data => setTransactions(data));
+  }, []);
 
-  const sortTransactions = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setSortConfig({ key, direction });
+  const addTransaction = (newTransaction) => {
+    setTransactions([...transactions, newTransaction]);
   };
 
-  const getSortedTransactions = (transactionsToSort) => {
-    if (!sortConfig.key) return transactionsToSort;
+  const deleteTransaction = (id) => {
+    setTransactions(transactions.filter(transaction => transaction.id !== id));
+  };
 
-    return [...transactionsToSort].sort((a, b) => {
-      if (a[sortConfig.key] < b[sortConfig.key]) {
-        return sortConfig.direction === 'ascending' ? -1 : 1;
-      }
-      if (a[sortConfig.key] > b[sortConfig.key]) {
-        return sortConfig.direction === 'ascending' ? 1 : -1;
-      }
-      return 0;
-    });
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   const filteredTransactions = transactions.filter(transaction =>
     transaction.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const sortedTransactions = getSortedTransactions(filteredTransactions);
+  const sortedTransactions = filteredTransactions.sort((a, b) => {
+    if (sortOption === 'description') {
+      return a.description.localeCompare(b.description);
+    } else if (sortOption === 'category') {
+      return a.category.localeCompare(b.category);
+    }
+    return new Date(a.date) - new Date(b.date);
+  });
 
   return (
     <div className="App">
-      {/* ... other components */}
-      <TransactionTable 
-        transactions={sortedTransactions} 
-        sortTransactions={sortTransactions}
-        sortConfig={sortConfig}
+      <SearchBar value={searchTerm} onChange={handleSearchChange} />
+      <TransactionForm onAddTransaction={addTransaction} />
+      <TransactionTable
+        transactions={sortedTransactions}
+        onDeleteTransaction={deleteTransaction}
+        onSortOptionChange={setSortOption}
       />
     </div>
   );

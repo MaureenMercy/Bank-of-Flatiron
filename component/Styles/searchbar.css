@@ -1,0 +1,55 @@
+/* src/styles/SearchBar.css */
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  /* Container for the search bar */
+.search-bar-container {
+    display: flex;
+    justify-content: center; /* Center-align the input within the container */
+    margin: 20px 0; /* Add margin around the container */
+}
+
+/* Search input styling */
+input {
+    width: 100%;
+    max-width: 600px; /* Limit the maximum width */
+    padding: 12px 16px; /* Add more padding for a better touch target */
+    border: 1px solid #ccc; /* Lighter border color */
+    border-radius: 8px; /* Slightly larger border radius for a smoother look */
+    margin-top: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Larger shadow for more depth */
+    font-size: 16px; /* Increase font size for better readability */
+    outline: none; /* Remove default focus outline */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+/* Input placeholder styling */
+input::placeholder {
+    color: #888; /* Darker placeholder text color */
+    font-style: italic; /* Italicize placeholder text */
+}
+
+/* Input focus styling */
+input:focus {
+    border-color: #007bff; /* Change border color on focus */
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* Brighter shadow on focus */
+}
+
+/* Input hover styling */
+input:hover {
+    border-color: #0056b3; /* Darker border color on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly darker shadow on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    input {
+        max-width: 100%; /* Make input full-width on smaller screens */
+    }
+}
